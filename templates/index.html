@@ -1,0 +1,98 @@
+$def with (hostname)
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+
+  <title>$hostname</title>
+  <link rel="stylesheet" href=
+  "//code.jquery.com/ui/1.11.1/themes/cupertino/jquery-ui.css"
+  type="text/css">
+  <link rel="stylesheet" href=
+  "//cdn.datatables.net/1.10.2/css/jquery.dataTables.css" type=
+  "text/css">
+  <link href=
+  "//medialize.github.io/jQuery-contextMenu/src/jquery.contextMenu.css"
+  rel="stylesheet" type="text/css">
+  <script src="//code.jquery.com/jquery-2.1.1.min.js" type=
+  "text/javascript">
+</script>
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" type=
+  "text/javascript">
+</script>
+  <script src=
+  "//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js" type=
+  "text/javascript">
+</script>
+  <script src="http://code.highcharts.com/highcharts.js" type=
+  "text/javascript">
+</script>
+  <script src="http://code.highcharts.com/highcharts-more.js" type=
+  "text/javascript">
+</script>
+  <style type="text/css">
+    body {
+        font-size: 10px;
+    }
+    div.c1 {text-align:center}
+  </style>
+</head>
+
+<body>
+  <div id="ifchart"></div>
+
+  <div id="loadingdialog" class="c1">
+    Please wait...
+  </div>
+
+  <div id="logindialog">
+    <div id="message"></div>
+
+    <form id="flogin" name="flogin">
+      <input type="hidden" name="action" value="login">
+
+      <table>
+        <tr>
+          <td>Login:</td>
+
+          <td><input type="text" name="login" id="login"></td>
+        </tr>
+
+        <tr>
+          <td>Password:</td>
+
+          <td><input type="password" name="password" id=
+          "password"></td>
+        </tr>
+      </table>
+    </form>
+  </div><!-- MAIN SCREEN -->
+
+  <div id="mainscreen">
+    <ul>
+      <li><a href="#tabmain">Main</a></li>
+
+      <li><a href="#tabusers">Users</a></li>
+
+      <li><a href="#tabsettings">Settings</a></li>
+
+      <li><a href="#tablogout">Logout</a></li>
+    </ul>
+
+    <div id="tabmain">
+      <input type="button" id="autorefresh" value=
+      "Autorefresh: OFF">
+    </div>
+
+    <div id="tabusers"></div>
+
+    <div id="tabsettings"></div>
+
+    <div id="tablogout"></div>
+  </div><!-- MAIN SCREEN EOF -->
+  <script type="text/javascript" src="/static/main.js">
+  </script>
+</body>
+</html>
