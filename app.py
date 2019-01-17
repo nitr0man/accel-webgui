@@ -1,21 +1,40 @@
+#!/usr/bin/python
+
 import json
 import web
-import config, db, api
+import config, api, db
 
 urls = (
     '/', 'Index',
     '/api/v(\d+)/', 'API'
 )
 
-session = None
+app = web.application(urls, globals())
+app.internalerror = web.debugerror
 
+if web.config.get('_session') is None:
+    session = web.session.Session(
+        app, web.session.DiskStore('sessions'),
+        initializer={'authenticated': False, 'login': ''}
+    )
+    web.config._session = session
+else:
+    session = web.config._session
 
-t_globals = dict(
-  datestr=web.datestr,
-)
-render = web.template.render('templates/', cache=config.cache,
-    globals=t_globals)
-render._keywords['globals']['render'] = render
+# Database initialization
+database = web.database(**config.database)
+
+render = web.template.render('templates/', cache=config.cache)
+
+# Save session and db in web.ctx
+def ctx_hook():
+    web.ctx.session = web.config._session
+    web.ctx.db = database
+
+app.add_processor(web.loadhook(ctx_hook))
+
+if __name__ == "__main__":
+    app.run()
 
 
 class JsonHelper:
@@ -31,19 +50,12 @@ class JsonHelper:
 
 class API(JsonHelper):
     def GET(self, version):
-        return self.json(api.get(session, version))
+        return self.json(api.get(version))
 
     def POST(self, version):
-        return self.json(api.post(session, version))
+        return self.json(api.post(version))
 
 
 class Index:
     def GET(self):
         return render.index(db.option('hostname'))
-
-
-if __name__ == "__main__":
-    app = web.application(urls, globals())
-    session = web.session.Session(app, web.session.DiskStore('sessions'))
-    app.internalerror = web.debugerror
-    app.run()

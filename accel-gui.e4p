@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project accel-gui -->
-<!-- Saved: 2019-01-16, 22:21:48 -->
+<!-- Saved: 2019-01-17, 01:33:07 -->
 <!-- Copyright (C) 2019 ,  -->
 <Project version="5.1">
   <Language></Language>
@@ -19,6 +19,7 @@
     <Source>config.py</Source>
     <Source>db.py</Source>
     <Source>static/main.js</Source>
+    <Source>utils.py</Source>
     <Source>view.py</Source>
   </Sources>
   <MainScript>app.py</MainScript>

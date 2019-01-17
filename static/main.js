@@ -4,7 +4,7 @@ var table = null;
 var chart; // global
 var chart_interface; // TODO: change this ugly global variable?
 var api_url = '/api/v1/';
-var chart_seconds = 20;
+var chart_seconds = 120;
 
 function request(data, success, api_error, server_error) {
     return $.ajax({
@@ -14,8 +14,13 @@ function request(data, success, api_error, server_error) {
         cache: false,
         success: success,
         error: function(jqXHR) {
-            if (jqXHR.status == 400 && api_error && jqXHR.responseJSON) {
-                api_error(jqXHR.responseJSON);
+            if (jqXHR.status == 400 && jqXHR.responseJSON) {
+                if (api_error)
+                    api_error(jqXHR.responseJSON);
+
+                // User is logged out - refresh page
+                if (jqXHR.responseJSON.logout)
+                    location.reload();
             } else {
                 console.error('AJAX request failed!');
                 if (server_error) {
@@ -89,7 +94,7 @@ function showchart() {
         xAxis: {
             type: 'datetime',
             tickPixelInterval: 150,
-            maxZoom: chart_seconds * 1000
+            minRange: chart_seconds * 1000
         },
         yAxis: {
             minPadding: 0.2,
@@ -127,6 +132,8 @@ function activateselect() {
             $("#loadingdialog").dialog('open');
             $(".ui-dialog-titlebar").hide();
 
+            var count = 0;
+
             function do_activate() {
                 request(
                     {action: op, interface: intf},
@@ -138,10 +145,15 @@ function activateselect() {
                     }, function(resp) {
                         if (resp.error) {
                             alert(resp.error);
+                            $("#loadingdialog").dialog('close');
                         }
                     }, function() {
                         // Server error - try again
-                        setTimeout(do_activate, 1000);
+                        count++;
+                        if (count < 10)
+                            setTimeout(do_activate, 1000)
+                        else
+                            $("#loadingdialog").dialog('close');
                     }
                 );
             };
@@ -200,14 +212,14 @@ function activator(event, ui) {
             });
             // Burp... ugly, but quick hack to remove +++---++ and so
             $("tr:eq(1)").remove();
-            // Add action column
-            // fix and add thead, datatables love it and need it
-            $("#tusers").prepend($('<thead><\/thead>').append($('#tusers tr:first').remove()));
             // and also th for better styling
             $("tr:first-child td").each(function() {
                 $(this).replaceWith('<th>' + $(this).text() + '<\/th>');
             });
+            // fix and add thead, datatables love it and need it
+            $("#tusers").prepend($('<thead><\/thead>').append($('#tusers tr:first').remove()));
 
+            // Add action column
             $("#tusers tr:eq(0)").append('<th>Operation<\/th>');
             $("#tusers tr:gt(0)").append('<td><select class="act" name="act"><option selected><\/option><option value="killhard">Terminate(hard)<\/option><option value="killsoft">Terminate(soft)<\/option><option value="watch">Watch live<\/option><\/select><\/td>');
 
@@ -227,8 +239,8 @@ function activator(event, ui) {
             //$(".act").selectmenu();
 
             // Get user detailed info
-            $("#loadingdialog").dialog('close');
-        });
+
+        }).always(function(){ $("#loadingdialog").dialog('close');});
     }
 }
 
