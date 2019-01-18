@@ -32,7 +32,8 @@ def netcat(host, port, content):
 
 
 def accelcmd(cmd):
-    return netcat('127.0.0.1', 2001, cmd).decode('utf-8', 'backslashreplace')
+    return netcat('127.0.0.1', 2001, cmd + '\n').decode(
+        'utf-8', 'backslashreplace')
 
 
 def readint(path):
