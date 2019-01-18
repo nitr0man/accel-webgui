@@ -19,7 +19,7 @@ def checkhash(password, hash):
 def accelcmd(cmd):
     cmd = cmd.split(' ')
     cmd.insert(0, 'accel-cmd')
-    return subprocess.check_output(cmd)
+    return subprocess.check_output(cmd).decode('utf-8', 'backslashreplace')
 
 
 def readint(path):
