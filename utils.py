@@ -1,5 +1,6 @@
 import hashlib
 import os
+import socket
 import subprocess
 import uuid
 
@@ -16,10 +17,22 @@ def checkhash(password, hash):
         (password + salt).encode('utf-8')).hexdigest()
 
 
+def netcat(host, port, content):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host, int(port)))
+    s.sendall(content.encode())
+    s.shutdown(socket.SHUT_WR)
+    ret = b''
+    data = True
+    while data:
+        data = s.recv(4096)
+        ret += data
+    s.close()
+    return ret
+
+
 def accelcmd(cmd):
-    cmd = cmd.split(' ')
-    cmd.insert(0, 'accel-cmd')
-    return subprocess.check_output(cmd).decode('utf-8', 'backslashreplace')
+    return netcat('127.0.0.1', 2001, cmd).decode('utf-8', 'backslashreplace')
 
 
 def readint(path):
