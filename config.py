@@ -1,6 +1,6 @@
 database = {
     'dbn': 'sqlite',
-    'db': 'accelgui'
+    'db': 'accelgui.sqlite'
 }
 
 cache = False

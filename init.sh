@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sqlite3 accelgui <sql/tables.sql
+sqlite3 accelgui.sqlite <sql/tables.sql

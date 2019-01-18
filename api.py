@@ -31,8 +31,6 @@ def checkiface(fn):
 
 
 def prelogin():
-    print(web.ctx.session, web.ctx.session.__dict__)
-
     return {
         'authenticated': web.ctx.session.get('authenticated', False),
         'login': web.ctx.session.get('login', '')
