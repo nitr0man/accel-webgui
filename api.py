@@ -2,7 +2,6 @@ import datetime
 import db
 import os
 import re
-import web
 import utils
 
 
@@ -10,7 +9,7 @@ RE_IFMATCH = re.compile('[a-z0-9]+', re.I)
 
 
 def accelcmd(cmd):
-    return utils.accelcmd(cmd, web.ctx.db.option('accel_password'))
+    return utils.accelcmd(cmd, db.option('accel_password'))
 
 
 def auth_required(fn):
