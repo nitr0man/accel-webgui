@@ -9,6 +9,10 @@ import utils
 RE_IFMATCH = re.compile('[a-z0-9]+', re.I)
 
 
+def accelcmd(cmd):
+    return utils.accelcmd(cmd, web.ctx.db.option('accel_password'))
+
+
 def auth_required(fn):
     def wrapped(*args,  **kwargs):
         if web.ctx.session.get('authenticated'):
@@ -53,13 +57,13 @@ def logout():
 @auth_required
 def stat():
     return {
-        'output': utils.accelcmd('show stat')
+        'output': accelcmd('show stat')
     }
 
 
 @auth_required
 def users():
-    lines = utils.accelcmd('show sessions').splitlines()
+    lines = accelcmd('show sessions').splitlines()
     lines = [
         l.replace('|', '</td><td>')
         for l in lines
@@ -93,7 +97,7 @@ def ifstat(data):
 @checkiface
 def kill(data, hard):
     iface = data.interface.strip()
-    utils.accelcmd('terminate if {} {}'.format(iface, 'hard' if hard else 'soft'))
+    accelcmd('terminate if {} {}'.format(iface, 'hard' if hard else 'soft'))
     return {}
 
 

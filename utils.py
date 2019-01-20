@@ -1,7 +1,6 @@
 import hashlib
 import os
 import socket
-import subprocess
 import uuid
 
 
@@ -31,7 +30,9 @@ def netcat(host, port, content):
     return ret
 
 
-def accelcmd(cmd):
+def accelcmd(cmd, password=None):
+    if password:
+        cmd = password + '\n' + cmd
     return netcat('127.0.0.1', 2001, cmd + '\n').decode(
         'utf-8', 'backslashreplace')
 

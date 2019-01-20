@@ -1,12 +1,11 @@
 CREATE TABLE user (
-    id INT auto_increment,
-    LOGIN CHAR(32) NOT NULL,
+    id INTEGER PRIMARY KEY NOT NULL,
+    login CHAR(32) NOT NULL,
     password TEXT NOT NULL,
     superuser boolean NOT NULL DEFAULT 0,
-    created DATE,
-    updated DATE,
-    PRIMARY KEY (id),
-    UNIQUE (LOGIN)
+    created TIMESTAMP,
+    updated TIMESTAMP,
+    UNIQUE (login)
     );
 
 CREATE TRIGGER insert_user_created
@@ -29,10 +28,9 @@ END;
 
 
 CREATE TABLE options (
-    id INT auto_increment,
     key TEXT NOT NULL,
     value TEXT NOT NULL,
-    PRIMARY KEY (id),
+    PRIMARY KEY (key),
     UNIQUE (key)
     );
 
@@ -47,6 +45,10 @@ VALUES (
     (
     'accel_port',
     '2000'
+    ),
+    (
+    'accel_password',
+    ''
     ),
     (
     'db_version',

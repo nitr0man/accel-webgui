@@ -23,7 +23,5 @@ if password != password2:
     print("Passwords are different!")
     exit()
 
-print(args.login, password, args)
-
 app.ctx_hook()
 db.create_login(args.login, password, args.update, args.superuser)
