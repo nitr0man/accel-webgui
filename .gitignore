@@ -3,3 +3,4 @@ __pycache__
 /sessions
 .eric6project
 *.pyc
+*.sqlite
