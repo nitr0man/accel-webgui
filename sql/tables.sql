@@ -43,8 +43,12 @@ VALUES (
     'Accel-PPP NAS'
     ),
     (
+    'accel_host',
+    '127.0.0.1'
+    ),
+    (
     'accel_port',
-    '2000'
+    '2001'
     ),
     (
     'accel_password',

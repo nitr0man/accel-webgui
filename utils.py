@@ -30,10 +30,10 @@ def netcat(host, port, content):
     return ret
 
 
-def accelcmd(cmd, password=None):
+def accelcmd(cmd, host='127.0.0.1', port=2001, password=None):
     if password:
         cmd = password + '\n' + cmd
-    return netcat('127.0.0.1', 2001, cmd + '\n').decode(
+    return netcat(host, port, cmd + '\n').decode(
         'utf-8', 'backslashreplace')
 
 

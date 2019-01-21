@@ -10,7 +10,12 @@ RE_IFMATCH = re.compile('[a-z0-9]+', re.I)
 
 
 def accelcmd(cmd):
-    return utils.accelcmd(cmd, db.option('accel_password'))
+    return utils.accelcmd(
+        cmd,
+        host=db.option('accel_host'),
+        port=db.option('accel_port'),
+        password=db.option('accel_password')
+    )
 
 
 def auth_required(fn):
