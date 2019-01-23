@@ -191,40 +191,15 @@ function loadmain() {
     }
 }
 
-function activator(event, ui) {
-    var tabname = ui.newPanel.attr('id');
-
-    console.log('Activating tab ' + tabname);
-    if (tabname == "tablogout") {
-        request({action: "logout"}, function() {
-            location.reload();
-        });
-    }
-    if (oldtab == "tabusers") {
-        table.clear();
-        table.destroy();
-        table = null;
-        $("#tabusers").html('');
-    }
-    if (tabname == "tabmain") {
-        loadmain();
-    }
-    if (tabname == "tabusers") {
+function refreshUserTable() {
         $("#loadingdialog").dialog('open');
         $(".ui-dialog-titlebar").hide();
+        var displayLen = $('#tusers_length select').val() || 10;
         request({action: "users"}, function(ret) {
             //console.log(ret.output);
             $("#tabusers").html(ret.output);
             $("#tabusers").prepend('<button id="refreshusers">Refresh<\/button>');
-            $("#refreshusers").button().click(function(e) {
-                $("#loadingdialog").dialog('open');
-                $(".ui-dialog-titlebar").hide();
-
-                $("#mainscreen").tabs("option", "active", 0);
-                setTimeout(function() {
-                    $("#mainscreen").tabs("option", "active", 1);
-                }, 1000);
-            });
+            $("#refreshusers").button().click(refreshUserTable);
             // Burp... ugly, but quick hack to remove +++---++ and so
             $("tr:eq(1)").remove();
             // and also th for better styling
@@ -245,7 +220,7 @@ function activator(event, ui) {
 
 
             table = $("#tusers").dataTable({
-                "iDisplayLength": 10
+                "iDisplayLength": displayLen
             }).on('draw.dt', function(e, settings) {
                 activateselect();
             });
@@ -256,6 +231,28 @@ function activator(event, ui) {
             // Get user detailed info
 
         }).always(function(){ $("#loadingdialog").dialog('close');});
+}
+
+function activator(event, ui) {
+    var tabname = ui.newPanel.attr('id');
+
+    console.log('Activating tab ' + tabname);
+    if (tabname == "tablogout") {
+        request({action: "logout"}, function() {
+            location.reload();
+        });
+    }
+    if (oldtab == "tabusers") {
+        table.clear();
+        table.destroy();
+        table = null;
+        $("#tabusers").html('');
+    }
+    if (tabname == "tabmain") {
+        loadmain();
+    }
+    if (tabname == "tabusers") {
+        refreshUserTable();
     }
 }
 
