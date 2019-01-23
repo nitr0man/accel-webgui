@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project accel-gui -->
-<!-- Saved: 2019-01-17, 01:33:07 -->
+<!-- Saved: 2019-01-22, 22:22:55 -->
 <!-- Copyright (C) 2019 ,  -->
 <Project version="5.1">
   <Language></Language>
@@ -13,14 +13,15 @@
   <Email></Email>
   <Eol index="0"/>
   <Sources>
-    <Source>__init__.py</Source>
     <Source>api.py</Source>
     <Source>app.py</Source>
     <Source>config.py</Source>
+    <Source>createuser.py</Source>
     <Source>db.py</Source>
+    <Source>setoption.py</Source>
+    <Source>showoptions.py</Source>
     <Source>static/main.js</Source>
     <Source>utils.py</Source>
-    <Source>view.py</Source>
   </Sources>
   <MainScript>app.py</MainScript>
   <Vcs>

@@ -65,8 +65,12 @@ function requestData() {
 }
 
 function showchart() {
-    var winW = $(window).width() - 180;
-    var winH = $(window).height() - 180;
+    var winW = window.innerWidth - 180;
+    var winH = window.innerHeight - 180;
+
+    if (winH < 300) {
+        winH = 300;
+    }
 
     $("#ifchart").dialog({
         height: winH,
