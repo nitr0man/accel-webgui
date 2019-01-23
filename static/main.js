@@ -6,6 +6,8 @@ var chart_interface; // TODO: change this ugly global variable?
 var api_url = '/api/v1/';
 var chart_seconds = 120;
 
+var fetch_timer = 0;
+
 function request(data, success, api_error, server_error) {
     return $.ajax({
         url: api_url,
@@ -31,7 +33,21 @@ function request(data, success, api_error, server_error) {
     });
 }
 
+
+function clearFetchInterval() {
+    if (fetch_timer) {
+        clearInterval(fetch_timer);
+    }
+    fetch_timer = 0;
+}
+
 function requestData() {
+    if (!fetch_timer)
+        fetch_timer = setInterval(ipstat, 1000);
+    ipstat();
+}
+
+function ipstat() {
     request(
         {
             action: "ifstat",
@@ -56,12 +72,7 @@ function requestData() {
             requestData.txbytes = point.txbytes;
             requestData.rxbytes = point.rxbytes;
         }
-    ).always(function(){
-        if (chart) {
-            // call it again after one second
-            setTimeout(requestData, 1000);
-        }
-    });
+    );
 }
 
 function showchart() {
@@ -81,10 +92,10 @@ function showchart() {
             delete requestData.rxbytes;
             chart.destroy();
             chart = null;
+            clearFetchInterval();
         }
     });
     chart = new Highcharts.Chart({
-
         chart: {
             renderTo: 'ifchart',
             defaultSeriesType: 'spline',
