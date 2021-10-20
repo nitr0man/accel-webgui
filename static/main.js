@@ -220,7 +220,8 @@ function refreshUserTable() {
 
 
             table = $("#tusers").dataTable({
-                "iDisplayLength": displayLen
+                "iDisplayLength": displayLen,
+                "stateSave": true
             }).on('draw.dt', function(e, settings) {
                 activateselect();
             });
